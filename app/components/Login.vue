@@ -18,8 +18,8 @@
 <script>
   import Register from "./Register.vue";
   import Main from "./Main.vue";
+  import axios from "axios";
 
-  import * as http from "http";
   export default {
     components:{
       Register,
