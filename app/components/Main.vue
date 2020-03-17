@@ -46,7 +46,7 @@
         created() {
             loader.show();
             this.selectedItem=0;
-            axios.get(this.$store.state.urlApi+"/player/api/index.php/series").then((result) => {
+            axios.get(this.$store.state.urlApi+"/app/api/index.php/series").then((result) => {
                 this.listOfItems = result.data.series;
             }).catch((err) => {
                 console.log(err);
