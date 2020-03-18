@@ -5,17 +5,18 @@
         </ActionBar>
         <StackLayout>
             <Image class="LogoGeoQuizz" src="~/img/logoGeoQuizz.png"/>
+            <Button text="Cliquez ici pour ajouter une série" @tap="showModal" class="btn btnAddSerie" />
 
-            <ListPicker class="listPicker" :items="listOfItems" textField="ville" v-model="selectedItem"/>
+            <ListPicker class="listPicker" :items="this.$store.state.listOfItems" textField="ville" v-model="selectedItem"/>
             <TextField class="TextField" v-model="textFieldValue" hint="Description..."/>
-            <Button class="TakePicture" text="Prendre une photo" @tap="takePicture"/>
+            <Button class="TakePicture btn" text="Prendre une photo" @tap="takePicture"/>
         </StackLayout>
     </Page>
 </template>
 
 <script>
 
-    import * as http from "http";
+    import ModalAjoutSerie from "./ModalAjoutSerie.vue";
     import Main from "./Main.vue";
     import axios from "axios";
     import {takePicture, requestPermissions} from "nativescript-camera";
@@ -33,11 +34,11 @@
     export default {
         components: {
             Main,
+            ModalAjoutSerie,
         },
         data() {
             return {
                 base64: null,
-                listOfItems: null,
                 selectedItem: null,
                 textFieldValue: null,
                 locations: [],
@@ -47,8 +48,9 @@
             loader.show();
             this.selectedItem=0;
             axios.get(this.$store.state.urlApi+"/app/api/index.php/series").then((result) => {
-                this.listOfItems = result.data.series;
+                this.$store.commit("setlistOfItems", result.data.series);
             }).catch((err) => {
+                alert("Une erreur est survenue");
                 console.log(err);
             })
 
@@ -68,6 +70,9 @@
             loader.hide();
         },
         methods: {
+            showModal() {
+                this.$showModal(ModalAjoutSerie);
+            },
             takePicture(args) {
                 let that = this;
                 geolocation.getCurrentLocation({
@@ -108,23 +113,27 @@
                                             //On ajoute la photo et la serie voulu a la table pivot
                                             axios.post(this.$store.state.urlApi + "/app/api/index.php/photo/serie", {
                                                 photo_id: result.data.id,
-                                                serie_id: this.listOfItems[this.selectedItem].id,
+                                                serie_id: this.$store.state.listOfItems[this.selectedItem].id,
                                             }).then((result) => {
                                                 console.log(result.data);
                                                 loader.hide();
                                                 alert("Image ajoutée avec succès");
                                                 this.textFieldValue = "";
                                             }).catch((err) => {
+                                                alert("Une erreur est survenue");
                                                 console.log(err.message);
                                             })
                                         }).catch((err) => {
+                                            alert("Une erreur est survenue");
                                             console.log(err.message);
                                         })
                                     },
                                     (err) => {
+                                        alert("Une erreur est survenue");
                                         console.log("Error -> " + err.message);
                                     });
                             }, (err) => {
+                                alert("Une erreur est survenue");
                                 console.log("Error -> " + err.message);
                             });
                         },
@@ -141,6 +150,14 @@
 </script>
 
 <style lang="scss" scoped>
+
+    .btn{
+        width: 80%;
+}
+
+    .btnAddSerie{
+        margin-top : 5%;
+    }
 
     .LogoGeoQuizz {
         margin-top: 4%;
@@ -161,7 +178,6 @@
 
     .TakePicture {
         margin-top: 10%;
-        width: 80%;
     }
 
     Page {

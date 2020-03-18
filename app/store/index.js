@@ -6,11 +6,11 @@ export default new Vuex.Store({
     state: {
         urlApi: "https://api.tallium.tech",
         token : null,
+        listOfItems : null,
     },
     mutations: {
-        /*setMemberInfos(state, content){
-            state.token = content.token;
-            state.memberInfos = content;
-        }*/
+        setlistOfItems(state, items){
+            state.listOfItems = items;
+        }
     }
 });
