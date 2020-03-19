@@ -21,8 +21,8 @@
         <FlexboxLayout alignItems="center" alignContent="center" flexDirection="column">
           <Label class="LabelInscritption" text="Inscritption"/>
           <Image class="LogoGeoQuizz" src="~/img/logoGeoQuizz.png"/>
-          <TextField class="TextField TextFieldMobile" keyboardType="datetime" v-model="mobile" hint="Téléphone"/>
-          <TextField class="TextField2" v-model="mail" hint="mail"/>
+          <TextField class="TextField TextFieldMobile" keyboardType="phone" v-model="mobile" hint="Téléphone"/>
+          <TextField class="TextField2" keyboardType="email" v-model="mail" hint="email"/>
           <TextField class="TextField2" secure="true" v-model="password" hint="Mot de passe"/>
           <TextField class="TextField2" secure="true" v-model="passwordVerif" hint="Confirmer le mot de passe"/>
 
@@ -36,19 +36,56 @@
 </template>
 
 <script>
-  import Login from "./Login.vue";
+  import Main from "./Main.vue";
   import BackArrow from "./BackArrow.vue";
-  import * as http from "http";
-  import Main from "./Main";
+  const LoadingIndicator = require('@nstudio/nativescript-loading-indicator').LoadingIndicator;
+  const Mode = require('@nstudio/nativescript-loading-indicator').Mode;
+  const loader = new LoadingIndicator();
+  const options = {
+    message: "Création du compte",
+    details: 'Veuillez patienter...'
+  };
 
   export default {
     components:{
       BackArrow,
-      Login,
+      Main,
     },
 methods: {
   register(){
-    this.$navigateTo(Main);
+    let that = this;
+    if(that.nom && that.prenom && that.mobile && that.mail  && that.password  && that.password === that.passwordVerif){
+      loader.show(options);
+      that.$axios.post("register", {
+        nom: that.nom,
+        prenom: that.prenom,
+        mail: that.mail,
+        motdepasse: that.password,
+        telephone: that.mobile,
+      }).then((result) => {
+        loader.hide();
+        that.$store.commit("setToken",result.data.token);
+        that.$axios.defaults.headers.Authorization = 'Bearer ' + result.data.token;
+        console.log(that.$axios.defaults.headers);
+        nom: that.nom = "";
+        that.prenom = "";
+        that.mail = "";
+        that.password = "";
+        that.mobile = "";
+        that.passwordVerif = "";
+        that.$navigateTo(Main);
+      }).catch((err) => {
+        console.log(err.response.request._response);
+        loader.hide();
+        alert("Une erreur est survenue");
+      })
+    }else{
+      if(that.password === that.passwordVerif){
+        alert("Au moins un champs n'est pas rempli");
+      }else{
+        alert("Les mots de passe ne correspondent pas");
+      }
+    }
   },
   next(){
     this.selectedIndex=1;

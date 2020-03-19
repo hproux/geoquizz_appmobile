@@ -18,7 +18,6 @@
 
     import ModalAjoutSerie from "./ModalAjoutSerie.vue";
     import Main from "./Main.vue";
-    import axios from "axios";
     import {takePicture, requestPermissions} from "nativescript-camera";
     import {ImageSource} from "@nativescript/core";
     import * as geolocation from "nativescript-geolocation";
@@ -47,7 +46,7 @@
         created() {
             loader.show();
             this.selectedItem=0;
-            axios.get(this.$store.state.urlApi+"/app/api/index.php/series").then((result) => {
+            this.$axios.get(this.$store.state.urlApi+"/app/api/index.php/series").then((result) => {
                 this.$store.commit("setlistOfItems", result.data.series);
             }).catch((err) => {
                 alert("Une erreur est survenue");
@@ -104,14 +103,14 @@
                                         this.base64 = src.toBase64String("jpg", 100);
                                         //on ajoute la photo a la base
                                         loader.show(options);
-                                        axios.post(this.$store.state.urlApi + "/app/api/index.php/photo", {
+                                        that.$axios.post(this.$store.state.urlApi + "/app/api/index.php/photo", {
                                             localisation: that.locations[0].latitude+","+that.locations[0].longitude,
                                             description: this.textFieldValue,
                                             photo: this.base64,
                                         }).then((result) => {
                                             console.log(result.data);
                                             //On ajoute la photo et la serie voulu a la table pivot
-                                            axios.post(this.$store.state.urlApi + "/app/api/index.php/photo/serie", {
+                                            that.$axios.post(this.$store.state.urlApi + "/app/api/index.php/photo/serie", {
                                                 photo_id: result.data.id,
                                                 serie_id: this.$store.state.listOfItems[this.selectedItem].id,
                                             }).then((result) => {

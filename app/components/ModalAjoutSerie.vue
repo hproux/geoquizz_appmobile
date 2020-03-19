@@ -15,7 +15,6 @@
 </template>
 
 <script>
-    import axios from "axios";
     import ModalAjoutMap from "./ModalAjoutMap";
     const LoadingIndicator = require('@nstudio/nativescript-loading-indicator').LoadingIndicator;
     const Mode = require('@nstudio/nativescript-loading-indicator').Mode;
@@ -47,13 +46,13 @@
           addSerie(){
                 let that = this;
               if(that.textFieldVille && that.$store.state.isThereMap==true && that.textFieldDist){
-                  axios.post(that.$store.state.urlApi + "/app/api/index.php/series", {
+                  that.$axios.post(that.$store.state.urlApi + "/app/api/index.php/series", {
                       ville: that.textFieldVille,
                       map_refs: that.$store.state.mapDetails.id,
                       dist: that.textFieldDist,
                   }).then((result) => {
                       console.log(result.data);
-                      axios.get(that.$store.state.urlApi+"/app/api/index.php/series").then((result) => {
+                      that.$axios.get(that.$store.state.urlApi+"/app/api/index.php/series").then((result) => {
                           that.$store.commit("setlistOfItems", result.data.series);
                           alert("Série ajoutée avec succès");
                           that.textFieldVille = "";

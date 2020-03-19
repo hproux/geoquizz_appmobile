@@ -6,7 +6,7 @@
     <FlexboxLayout alignItems="center" alignContent="center" flexDirection="column">
       <Label class="LabelConnexion" text="Connexion"/>
       <Image class="LogoGeoQuizz" src="~/img/logoGeoQuizz.png" />
-      <TextField class="TextField TextFieldId" v-model="id" hint="Adresse mail"/>
+      <TextField class="TextField TextFieldId" keyboardType="email" v-model="mail" hint="Adresse mail"/>
       <TextField class="TextField" secure="true" v-model="password" hint="Mot de passe"/>
 
       <Button class="Btn BtnConnexion" text="Se connecter" @tap="login"/>
@@ -16,9 +16,23 @@
 </template>
 
 <script>
+  import {decode, encode} from 'base-64'
+  if (!global.btoa) {
+    global.btoa = encode;
+  }
+  if (!global.atob) {
+    global.atob = decode;
+  }
+
   import Register from "./Register.vue";
   import Main from "./Main.vue";
-  import axios from "axios";
+  const LoadingIndicator = require('@nstudio/nativescript-loading-indicator').LoadingIndicator;
+  const Mode = require('@nstudio/nativescript-loading-indicator').Mode;
+  const loader = new LoadingIndicator();
+  const options = {
+    message: "Connexion au compte",
+    details: 'Veuillez patienter...'
+  };
 
   export default {
     components:{
@@ -27,13 +41,36 @@
     },
   data() {
     return {
-      id : null,
+      mail : null,
       password : null,
     }
   },
   methods: {
     login(){
-      this.$navigateTo(Main);
+      let that = this;
+      if(that.mail && that.password){
+        loader.show(options);
+        that.$axios.post("login", {},{
+          auth : {
+            username: that.mail,
+            password: that.password,
+          }
+        }).then((result) => {
+          loader.hide();
+          that.$store.commit("setToken",result.data.token);
+          that.$axios.defaults.headers.Authorization = 'Bearer ' + result.data.token;
+          console.log(that.$axios.defaults.headers);
+          that.mail = "";
+          that.password = "";
+          that.$navigateTo(Main);
+        }).catch((err) => {
+          console.log(err.response.request._response);
+          loader.hide();
+          alert("Identifiants incorrect");
+        })
+      }else{
+          alert("Au moins un champs n'est pas rempli");
+      }
     },
     register(){
       this.$navigateTo(Register);

@@ -19,6 +19,9 @@ export default new Vuex.Store({
         },
         setMapDetails(state, map){
             state.mapDetails = map;
-        }
+        },
+        setToken(state, token){
+            state.token = token;
+        },
     }
 });
