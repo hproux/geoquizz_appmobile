@@ -4,7 +4,6 @@ import * as ApplicationSettings from "application-settings";
 Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
-        urlApi: "https://api.tallium.tech",
         token : null,
         listOfItems : null,
         isThereMap : false,
@@ -16,6 +15,9 @@ export default new Vuex.Store({
         },
         changeStateIsThereMap(state){
             state.isThereMap = !state.isThereMap;
+        },
+        setIsThereMap(state, stateGiven){
+            state.isThereMap = stateGiven;
         },
         setMapDetails(state, map){
             state.mapDetails = map;

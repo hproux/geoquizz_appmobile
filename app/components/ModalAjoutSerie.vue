@@ -7,7 +7,7 @@
         <Button v-if="!this.$store.state.isThereMap" text="Cliquez ici pour choisir une carte" @tap="showModal" class="btn btnAddMap" />
         <StackLayout v-if="this.$store.state.isThereMap">
             <Label class="h3 text-center" :text="this.$store.state.mapDetails.ville" />
-            <Image :src="this.$store.state.mapDetails.miniature"/>
+            <Image height="80%" :src="this.$store.state.mapDetails.miniature"/>
         </StackLayout>
         <!--Button class="btn btn-outline" text="Close Modal" @tap="$modal.close()" /-->
         <Button class="btn btn-outline" text="Ajouter la série" @tap="addSerie"/>
@@ -46,13 +46,13 @@
           addSerie(){
                 let that = this;
               if(that.textFieldVille && that.$store.state.isThereMap==true && that.textFieldDist){
-                  that.$axios.post(that.$store.state.urlApi + "/app/api/index.php/series", {
+                  that.$axios.post("series", {
                       ville: that.textFieldVille,
                       map_refs: that.$store.state.mapDetails.id,
                       dist: that.textFieldDist,
                   }).then((result) => {
                       console.log(result.data);
-                      that.$axios.get(that.$store.state.urlApi+"/app/api/index.php/series").then((result) => {
+                      that.$axios.get("series").then((result) => {
                           that.$store.commit("setlistOfItems", result.data.series);
                           alert("Série ajoutée avec succès");
                           that.textFieldVille = "";

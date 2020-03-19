@@ -23,7 +23,6 @@
   if (!global.atob) {
     global.atob = decode;
   }
-
   import Register from "./Register.vue";
   import Main from "./Main.vue";
   const LoadingIndicator = require('@nstudio/nativescript-loading-indicator').LoadingIndicator;
@@ -60,8 +59,6 @@
           that.$store.commit("setToken",result.data.token);
           that.$axios.defaults.headers.Authorization = 'Bearer ' + result.data.token;
           console.log(that.$axios.defaults.headers);
-          that.mail = "";
-          that.password = "";
           that.$navigateTo(Main);
         }).catch((err) => {
           console.log(err.response.request._response);
