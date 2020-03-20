@@ -1,5 +1,5 @@
 <template lang="html">
-    <Page>
+    <Page actionBarHidden="true">
         <ActionBar class="action-bar">
             <Label class="action-bar-title" text=""></Label>
         </ActionBar>
@@ -186,7 +186,7 @@
     }
 
     ActionBar {
-        height: 30em;
+        //height: 30em;
         background-color: black;
     }
 </style>

@@ -1,5 +1,5 @@
 <template lang="html">
-  <Page>
+  <Page actionBarHidden="true">
    <ActionBar class="action-bar">
       <Label class="action-bar-title" text=""></Label>
     </ActionBar>
