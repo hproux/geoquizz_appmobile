@@ -113,7 +113,7 @@
                                         }).then((result) => {
                                             console.log(result.data);
                                             //On ajoute la photo et la serie voulu a la table pivot
-                                            that.$axios.post("serie", {
+                                            that.$axios.post("photo/serie", {
                                                 photo_id: result.data.id,
                                                 serie_id: this.$store.state.listOfItems[this.selectedItem].id,
                                             }).then((result) => {
@@ -123,11 +123,11 @@
                                                 this.textFieldValue = "";
                                             }).catch((err) => {
                                                 alert("Une erreur est survenue");
-                                                console.log(err.message);
+                                                console.log(err.response.request._response);
                                             })
                                         }).catch((err) => {
                                             alert("Une erreur est survenue");
-                                            console.log(err.message);
+                                            console.log(err.response.request._response);
                                         })
                                     },
                                     (err) => {
@@ -167,7 +167,6 @@
     }
 
     .listPicker {
-        text-color: white;
         color: white;
     }
 
