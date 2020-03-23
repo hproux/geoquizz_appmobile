@@ -27,7 +27,8 @@
     const loader = new LoadingIndicator();
     const options = {
         message: "Envoi de l'image",
-        details: 'Veuillez patienter...'
+        details: 'Veuillez patienter...',
+        userInteractionEnabled: false,
     };
 
     export default {

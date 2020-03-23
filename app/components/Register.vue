@@ -43,7 +43,8 @@
   const loader = new LoadingIndicator();
   const options = {
     message: "Création du compte",
-    details: 'Veuillez patienter...'
+    details: 'Veuillez patienter...',
+    userInteractionEnabled: false,
   };
 
   export default {

@@ -30,7 +30,8 @@
   const loader = new LoadingIndicator();
   const options = {
     message: "Connexion au compte",
-    details: 'Veuillez patienter...'
+    details: 'Veuillez patienter...',
+    userInteractionEnabled: false,
   };
 
   export default {
@@ -89,7 +90,7 @@
 }
 
 .BtnConnexion{
-  margin-top: 25%;
+  margin-top: 18%;
   margin-bottom: 2%;
   color : white;
   background-color: #055fb2;
@@ -128,6 +129,6 @@ ActionBar{
 .LabelConnexion{
   font-size:25em;
   color:white;
-  margin-top: 3%;
+  margin-top: 6%;
 }
 </style>
