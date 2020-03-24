@@ -4,7 +4,7 @@ import axios from 'axios'
 import Vuex from 'vuex';
 import Login from "./components/Login";
 export const base = axios.create({
-    baseURL: 'https://api.tallium.tech/app/api/index.php/',
+    baseURL: 'https://apiapp.tallium.tech/',
     headers: {
         'Authorization' : ''
     }
