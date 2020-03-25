@@ -80,6 +80,8 @@ methods: {
         loader.hide();
         alert("Une erreur est survenue");
       })
+      loader.hide();
+
     }else{
       if(that.password === that.passwordVerif){
         alert("Au moins un champs n'est pas rempli");

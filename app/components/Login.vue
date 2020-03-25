@@ -66,6 +66,7 @@
           loader.hide();
           alert("Identifiants incorrect");
         })
+        loader.hide();
       }else{
           alert("Au moins un champs n'est pas rempli");
       }

@@ -130,6 +130,8 @@
                                             alert("Une erreur est survenue");
                                             console.log(err.response.request._response);
                                         })
+                                        loader.hide();
+
                                     },
                                     (err) => {
                                         alert("Une erreur est survenue");

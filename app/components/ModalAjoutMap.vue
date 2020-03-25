@@ -55,6 +55,8 @@
                 alert("Une erreur est survenue");
                 console.log(err);
             })
+            loader.hide();
+
         },
         data() {
             return {
@@ -117,6 +119,8 @@
                                             console.log(err.response.request._response);
                                             alert("Une erreur est survenue");
                                         })
+                                        loader.hide();
+
                                     }, error => {
                                         console.log(error);
                                         that.busyLoader = false;

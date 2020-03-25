@@ -74,6 +74,8 @@
                       console.log(err.response.request._response);
                       loader.hide();
                   })
+                  loader.hide();
+
               }else{
                 alert("Un des champs n'a pas été rempli");
               }

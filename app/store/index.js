@@ -9,19 +9,19 @@ export default new Vuex.Store({
         mapDetails : null,
     },
     mutations: {
-        setlistOfItems(state, items){
+        setlistOfItems(state, items) {
             state.listOfItems = items;
         },
-        changeStateIsThereMap(state){
+        changeStateIsThereMap(state) {
             state.isThereMap = !state.isThereMap;
         },
-        setIsThereMap(state, stateGiven){
+        setIsThereMap(state, stateGiven) {
             state.isThereMap = stateGiven;
         },
-        setMapDetails(state, map){
+        setMapDetails(state, map) {
             state.mapDetails = map;
         },
-        setToken(state, token){
+        setToken(state, token) {
             state.token = token;
         },
     }
