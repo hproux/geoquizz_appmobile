@@ -30,6 +30,11 @@
         details: 'Veuillez patienter...',
         userInteractionEnabled: false,
     };
+    const options2 = {
+        message: "Chargement des series",
+        details: 'Veuillez patienter...',
+        userInteractionEnabled: false,
+    };
 
     export default {
         components: {
@@ -45,7 +50,7 @@
             }
         },
         created() {
-            loader.show();
+            loader.show(options2);
             this.selectedItem=0;
             this.$axios.get("series").then((result) => {
                 this.$store.commit("setlistOfItems", result.data.series);
